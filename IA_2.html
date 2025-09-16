@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Propuesta de guía interactiva sobre las herramientas de IA más relevantes.">
+    <meta name="keywords" content="IA, inteligencia artificial, ChatGPT, Claude, Gemini, Midjourney, GitHub Copilot, herramientas IA, machine learning, modelos de lenguaje">
+    <meta name="author" content="@dagdmfc">
+    <meta property="og:title" content="Inteligencia Artificial - Guía Interactiva">
+    <meta property="og:description" content="Descubre las herramientas de IA más relevantes y su impacto en el mundo actual.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>IA - Guía Interactiva</title>
+    <!-- Carga de Tailwind CSS para un diseño limpio y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #E6E6E6; /* Gris claro - Color de fondo */
+            color: #01161e; /* Rich Black - Color de texto oscuro */
+        }
+        .ai-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(18, 69, 89, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        .ai-card:hover::before {
+            left: 100%;
+        }
+        .ai-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(1, 22, 30, 0.15);
+            border-color: #124559;
+        }
+        .ai-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .ai-link:hover {
+            color: #124559;
+            transform: translateX(5px);
+        }
+        .card-content {
+            overflow: hidden;
+            max-height: 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+        .card-content.open {
+            max-height: 600px;
+            opacity: 1;
+        }
+        .category-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .category-title:hover {
+            transform: translateX(10px);
+        }
+        .category-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #01161e, #124559);
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+        .category-title:hover::after {
+            width: 80px;
+        }
+
+        /* Animación de entrada para tarjetas */
+        .ai-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .ai-card:nth-child(1) { animation-delay: 0.1s; }
+        .ai-card:nth-child(2) { animation-delay: 0.2s; }
+        .ai-card:nth-child(3) { animation-delay: 0.3s; }
+        .ai-card:nth-child(4) { animation-delay: 0.4s; }
+        .ai-card:nth-child(5) { animation-delay: 0.5s; }
+        .ai-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mejor responsividad */
+        @media (max-width: 768px) {
+            .ai-card:hover {
+                transform: translateY(-3px) scale(1.01);
+            }
+            .category-title:hover {
+                transform: none;
+            }
+        }
+
+        /* Estilos para el campo de búsqueda */
+        #searchInput {
+            transition: all 0.3s ease;
+        }
+        #searchInput:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(18, 69, 89, 0.3);
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-4">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#01161e] to-[#124559]">INTELIGENCIA ARTIFICIAL</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-8">
+                Una guía interactiva y completa sobre las herramientas de IA más relevantes
+            </p>
+
+            <!-- Campo de búsqueda -->
+            <div class="max-w-md mx-auto mb-8">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Buscar herramientas de IA..."
+                           class="w-full px-4 py-3 pl-12 text-gray-900 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-4">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">Busca por nombre, descripción o categoría</p>
+            </div>
+        </header>
+
+        <!-- Sección de Análisis y Comparativa de IAs -->
+        <section class="mb-16">
+            <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Análisis, Estadísticas y Comparativa de IAs</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+                <h3 class="text-xl font-bold text-gray-800">Artificial Analysis</h3>
+                <p class="mt-2 text-gray-600">
+                    Una plataforma de análisis y comparación de modelos de lenguaje, que evalúa el rendimiento, la velocidad y el costo de diversas IAs. Es una herramienta esencial para entender el panorama actual de la IA y tomar decisiones informadas sobre qué modelo usar.
+                </p>
+                <a href="https://artificialanalysis.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+            </div>
+        </section>
+
+        <!-- Sección principal de las tarjetas de IA -->
+        <div id="infographic" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Categoría: Modelos de Lenguaje y Chatbots -->
+            <div class="col-span-full mt-6">
+                <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Modelos de Lenguaje y Chatbots</h2>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">✨</span>
+                    <h3 class="text-xl font-bold">Gemini</h3>
+                </div>
+                <p class="text-gray-600">El modelo multimodal de Google, capaz de razonar sobre texto, imágenes, audio y código.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un asistente conversacional que aprovecha los modelos más avanzados de Google. Es ideal para generar texto, programar, analizar imágenes, crear presentaciones y responder preguntas complejas. Integra perfectamente con Google Workspace y ofrece capacidades multimodales avanzadas.
+                    </p>
+                    <a href="https://gemini.google.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">💬</span>
+                    <h3 class="text-xl font-bold">ChatGPT</h3>
+                </div>
+                <p class="text-gray-600">El pionero en la popularización de los chatbots, con versiones GPT-3.5 y GPT-4.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un asistente conversacional desarrollado por OpenAI. Destaca por su capacidad para generar respuestas coherentes y creativas en una amplia variedad de temas, desde la redacción de correos hasta la creación de código. Incluye GPT-4 para razonamiento avanzado y GPT-3.5 para respuestas rápidas.
+                    </p>
+                    <a href="https://chatgpt.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🤖</span>
+                    <h3 class="text-xl font-bold">Claude 3.5 Sonnet</h3>
+                </div>
+                <p class="text-gray-600">La versión más avanzada de Claude de Anthropic, líder en rendimiento y seguridad.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> La versión más potente de Claude, ofrece un rendimiento superior en razonamiento, análisis de código, matemáticas y escritura creativa. Es especialmente fuerte en análisis de documentos largos y mantiene conversaciones detalladas y seguras.
+                    </p>
+                    <a href="https://claude.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🌪️</span>
+                    <h3 class="text-xl font-bold">Mistral AI</h3>
+                </div>
+                <p class="text-gray-600">Modelo de lenguaje europeo de código abierto, competitivo con los mejores modelos comerciales.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Una alternativa europea de código abierto que ofrece rendimiento comparable a modelos como GPT-4. Especializado en razonamiento lógico, matemáticas y generación de código, con énfasis en la privacidad y el control de datos.
+                    </p>
+                    <a href="https://mistral.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎯</span>
+                    <h3 class="text-xl font-bold">Cohere</h3>
+                </div>
+                <p class="text-gray-600">Plataforma de IA especializada en procesamiento de lenguaje natural empresarial.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Ofrece modelos de lenguaje optimizados para aplicaciones empresariales, incluyendo generación de texto, análisis de sentimientos, clasificación de documentos y chatbots personalizados. Enfocado en la escalabilidad y la integración enterprise.
+                    </p>
+                    <a href="https://cohere.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🔍</span>
+                    <h3 class="text-xl font-bold">Perplexity</h3>
+                </div>
+                <p class="text-gray-600">Un motor de respuestas conversacionales que genera resúmenes con fuentes citadas.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un motor de respuestas conversacionales que genera resúmenes con fuentes citadas.
+                    </p>
+                    <a href="https://www.perplexity.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">👨‍💼</span>
+                    <h3 class="text-xl font-bold">DeepSeek Coder</h3>
+                </div>
+                <p class="text-gray-600">Un modelo de lenguaje de código abierto especializado en programación.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Se centra en la generación y el análisis de código, ofreciendo un alto rendimiento en tareas de programación, lo que lo convierte en una excelente alternativa de código abierto para desarrolladores.
+                    </p>
+                    <a href="https://deepseek.com/en/coder/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">⚡</span>
+                    <h3 class="text-xl font-bold">Grok</h3>
+                </div>
+                <p class="text-gray-600">Un modelo de lenguaje desarrollado por X.AI, conocido por su ingenio y acceso a información en tiempo real.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Grok se distingue por su enfoque humorístico y su capacidad para responder preguntas de forma ingeniosa y, en tiempo real, gracias a su integración con la plataforma X. Es ideal para respuestas rápidas y originales, incluyendo temas de código.
+                    </p>
+                    <a href="https://grok.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Categoría: Programación y Desarrollo -->
+            <div class="col-span-full mt-6">
+                <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Programación y Desarrollo</h2>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">💻</span>
+                    <h3 class="text-xl font-bold">Llama Coder</h3>
+                </div>
+                <p class="text-gray-600">Un modelo de código abierto para generar, completar y explicar código.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Genera código, autocompleta de forma inteligente y explica fragmentos de código, acelerando tu flujo de trabajo de desarrollo.
+                    </p>
+                    <a href="https://llamacoder.together.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">📝</span>
+                    <h3 class="text-xl font-bold">Cursor</h3>
+                </div>
+                <p class="text-gray-600">Un editor de código que integra la IA para potenciar tu flujo de trabajo.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Basado en VS Code, añade un potente asistente de IA para ayudarte a escribir, depurar y refactorizar código.
+                    </p>
+                    <a href="https://cursor.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🤖</span>
+                    <h3 class="text-xl font-bold">GitHub Copilot</h3>
+                </div>
+                <p class="text-gray-600">Tu programador de pares de IA que autocompleta código en tiempo real.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un asistente de programación desarrollado por GitHub y OpenAI. Sugiere líneas o funciones completas de código a medida que escribes.
+                    </p>
+                    <a href="https://github.com/features/copilot?locale=es-419" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">⚡</span>
+                    <h3 class="text-xl font-bold">Duino Code Generator</h3>
+                </div>
+                <p class="text-gray-600">Generador de código con IA para la plataforma Arduino, simplificando la programación.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Te permite describir lo que quieres que haga tu proyecto de Arduino en lenguaje natural y genera el código correspondiente.
+                    </p>
+                    <a href="https://www.duinocodegenerator.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">☁️</span>
+                    <h3 class="text-xl font-bold">Arduino Cloud</h3>
+                </div>
+                <p class="text-gray-600">Plataforma que permite la programación visual y el monitoreo de dispositivos Arduino.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un IDE en la nube que permite programar, conectar y monitorear tus proyectos de Arduino y ESP32, facilitando la programación a través de bloques y `dashboards` interactivos.
+                    </p>
+                    <a href="https://app.arduino.cc/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">⌨️</span>
+                    <h3 class="text-xl font-bold">Visual Studio Code</h3>
+                </div>
+                <p class="text-gray-600">El editor de código más popular con potentes extensiones de IA.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un editor de código ligero y potente de Microsoft. Es la base de muchas integraciones de IA (como GitHub Copilot y otros plugins) que mejoran la productividad del desarrollador.
+                    </p>
+                    <a href="https://code.visualstudio.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🔌</span>
+                    <h3 class="text-xl font-bold">Flux.ai</h3>
+                </div>
+                <p class="text-gray-600">Herramienta de IA para diseño de circuitos electrónicos y PCBs.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Una plataforma especializada en el diseño asistido por IA de circuitos electrónicos y placas de circuito impreso (PCBs), facilitando la creación y optimización de diseños electrónicos.
+                    </p>
+                    <a href="https://www.flux.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🚀</span>
+                    <h3 class="text-xl font-bold">Kilocode.ai</h3>
+                </div>
+                <p class="text-gray-600">Herramienta de IA para generar y explicar fragmentos de código, ideal para principiantes.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Se centra en la generación de código funcional para resolver tareas específicas, y además ofrece explicaciones detalladas para que los usuarios entiendan la lógica detrás del código generado.
+                    </p>
+                    <a href="https://kilocode.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">💻</span>
+                    <h3 class="text-xl font-bold">Replit</h3>
+                </div>
+                <p class="text-gray-600">IDE en la nube con IA integrada para desarrollo colaborativo de código.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un entorno de desarrollo en la nube que combina un editor de código poderoso con IA para autocompletado inteligente, depuración asistida y generación de código. Ideal para aprendizaje y desarrollo colaborativo.
+                    </p>
+                    <a href="https://replit.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">▲</span>
+                    <h3 class="text-xl font-bold">Vercel AI</h3>
+                </div>
+                <p class="text-gray-600">Plataforma de desarrollo web con herramientas de IA para crear aplicaciones modernas.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Combina el poder de Vercel para despliegue de aplicaciones web con herramientas de IA avanzadas. Incluye SDK para integrar modelos de IA en aplicaciones, generación de código asistida y optimización automática.
+                    </p>
+                    <a href="https://vercel.com/docs/ai" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🤗</span>
+                    <h3 class="text-xl font-bold">Hugging Face</h3>
+                </div>
+                <p class="text-gray-600">Plataforma líder para modelos de IA de código abierto y machine learning.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> La comunidad más grande de modelos de IA de código abierto. Ofrece miles de modelos pre-entrenados para procesamiento de lenguaje natural, visión por computadora y más, con herramientas para fine-tuning y despliegue.
+                    </p>
+                    <a href="https://huggingface.co/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Categoría: Creación de Contenido (Texto, Imagen, Video) -->
+            <div class="col-span-full mt-6">
+                <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Creación de Contenido</h2>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">✍️</span>
+                    <h3 class="text-xl font-bold">Video to Blog</h3>
+                </div>
+                <p class="text-gray-600">Transforma tus videos o podcasts en artículos de blog optimizados con IA.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Simplifica el trabajo de los creadores de contenido al transcribir, resumir y convertir videos en artículos de blog listos para publicar.
+                    </p>
+                    <a href="https://www.videotoblog.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🖼️</span>
+                    <h3 class="text-xl font-bold">Midjourney</h3>
+                </div>
+                <p class="text-gray-600">Una de las IAs más populares para la creación de imágenes a partir de texto.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un laboratorio de investigación independiente que crea imágenes a partir de descripciones textuales. Produce resultados de alta calidad y con un estilo artístico distintivo.
+                    </p>
+                    <a href="https://www.midjourney.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🖼️</span>
+                    <h3 class="text-xl font-bold">DALL-E</h3>
+                </div>
+                <p class="text-gray-600">El modelo de generación de imágenes de OpenAI conocido por su versatilidad y creatividad.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> DALL-E es uno de los generadores de imágenes más reconocidos. Es capaz de crear imágenes realistas y artísticas a partir de descripciones de texto, incluso con conceptos complejos y abstractos.
+                    </p>
+                    <a href="https://openai.com/dall-e-3" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎨</span>
+                    <h3 class="text-xl font-bold">Stability AI</h3>
+                </div>
+                <p class="text-gray-600">Empresa líder en modelos de IA de código abierto para generación de imágenes y más.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Desarrolladores de Stable Diffusion, uno de los modelos de generación de imágenes más populares. Ofrecen herramientas de código abierto para crear imágenes, videos y otros contenidos multimedia con IA.
+                    </p>
+                    <a href="https://stability.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎬</span>
+                    <h3 class="text-xl font-bold">RunwayML</h3>
+                </div>
+                <p class="text-gray-600">Un editor de video con IA para crear clips a partir de texto o imágenes.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Una suite de herramientas de creación de contenido con IA que te permite generar videos, animar imágenes y editar metraje de forma no destructiva con solo una descripción de texto.
+                    </p>
+                    <a href="https://runwayml.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎬</span>
+                    <h3 class="text-xl font-bold">Synthesia</h3>
+                </div>
+                <p class="text-gray-600">Plataforma de generación de video con avatares de IA realistas.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Convierte texto en video con avatares de IA que hablan tu texto en diferentes idiomas. Ideal para crear videos de formación, tutoriales o presentaciones sin necesidad de grabar a una persona.
+                    </p>
+                    <a href="https://www.synthesia.io/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎬</span>
+                    <h3 class="text-xl font-bold">HeyGen</h3>
+                </div>
+                <p class="text-gray-600">Herramienta de video con IA para crear videos de alta calidad con avatares y voces.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Similar a Synthesia, HeyGen ofrece una plataforma fácil de usar para crear videos corporativos, de marketing o de redes sociales a partir de un simple guion de texto.
+                    </p>
+                    <a href="https://www.heygen.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎬</span>
+                    <h3 class="text-xl font-bold">Sora</h3>
+                </div>
+                <p class="text-gray-600">Modelo de OpenAI capaz de generar video realista a partir de texto.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Es una de las tecnologías más avanzadas para la generación de video. Crea videos de un minuto de duración con escenas complejas, personajes múltiples y movimientos específicos, todo con un simple `prompt` de texto.
+                    </p>
+                    <a href="https://openai.com/sora" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎙️</span>
+                    <h3 class="text-xl font-bold">Vidnoz</h3>
+                </div>
+                <p class="text-gray-600">Una herramienta para transcribir audio a texto en diversos idiomas.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Sube tus archivos de audio y la IA los transcribirá de forma precisa, facilitando la creación de subtítulos, la redacción de notas o la búsqueda de información específica en grabaciones.
+                    </p>
+                    <a href="https://es.vidnoz.com/transcribir-audio-a-texto.html" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🗣️</span>
+                    <h3 class="text-xl font-bold">DeepL</h3>
+                </div>
+                <p class="text-gray-600">Un traductor de IA avanzado conocido por su precisión y fluidez.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Utiliza redes neuronales para generar traducciones de alta calidad, a menudo superando a otros servicios por su capacidad para capturar el matiz y el contexto de las frases.
+                    </p>
+                    <a href="https://www.deepl.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🧠</span>
+                    <h3 class="text-xl font-bold">Undermind.ai</h3>
+                </div>
+                <p class="text-gray-600">Un generador de texto y arte para creadores y escritores.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Ofrece herramientas para la generación de ideas, la escritura creativa y la producción de arte digital. Su enfoque es ayudar a los usuarios a explorar su creatividad con la ayuda de la IA.
+                    </p>
+                    <a href="https://www.undermind.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Categoría: Educación y Productividad -->
+            <div class="col-span-full mt-6">
+                <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Educación y Productividad</h2>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">📚</span>
+                    <h3 class="text-xl font-bold">NotebookLM</h3>
+                </div>
+                <p class="text-gray-600">Un asistente de investigación potenciado por IA para entender y organizar documentos.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Funciona como un "cerebro" virtual para tus notas y archivos. Ayuda a resumir, hacer preguntas sobre ellos, generar borradores y conectar ideas.
+                    </p>
+                    <a href="https://notebooklm.google.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎓</span>
+                    <h3 class="text-xl font-bold">Unstuck Study</h3>
+                </div>
+                <p class="text-gray-600">Una herramienta de IA para estudiantes que te ayuda a organizar y aprender.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Resúmenes de temas complejos, genera preguntas de práctica y te ayuda a crear planes de estudio personalizados para prepararte de forma eficiente para exámenes.
+                    </p>
+                    <a href="https://unstuckstudy.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🧑‍🏫</span>
+                    <h3 class="text-xl font-bold">Tutoor</h3>
+                </div>
+                <p class="text-gray-600">Un tutor personal con IA que ofrece explicaciones personalizadas.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Ideal para estudiantes, ofrece explicaciones paso a paso de conceptos complejos, resuelve problemas y te ayuda a entender temas de forma interactiva.
+                    </p>
+                    <a href="https://tutoor.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">📄</span>
+                    <h3 class="text-xl font-bold">TXYZ.ai</h3>
+                </div>
+                <p class="text-gray-600">Asistente de lectura de artículos científicos y de investigación.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Sube un artículo de investigación y TXYZ te ayuda a resumir los puntos clave, a encontrar la información más relevante y a entender las partes más complejas del texto.
+                    </p>
+                    <a href="https://app.txyz.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">📹</span>
+                    <h3 class="text-xl font-bold">ScreenApp</h3>
+                </div>
+                <p class="text-gray-600">Grabadora de pantalla con IA que toma notas y transcribe reuniones automáticamente.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Esta herramienta graba tu pantalla y utiliza IA para transcribir el audio, resumir los puntos clave y generar notas de forma automática. Ideal para clases, reuniones o conferencias.
+                    </p>
+                    <a href="https://screenapp.io/features/lecture-ai-notetaker" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">📎</span>
+                    <h3 class="text-xl font-bold">Monica</h3>
+                </div>
+                <p class="text-gray-600">Una extensión de navegador que actúa como tu asistente personal de IA.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Una herramienta multifuncional integrada en tu navegador que te permite resumir páginas, traducir, redactar correos, y chatear con IA sin salir de la página.
+                    </p>
+                    <a href="https://monica.im/es" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Categoría: Diseño y Diagramación -->
+            <div class="col-span-full mt-6">
+                <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Diseño y Diagramación</h2>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎨</span>
+                    <h3 class="text-xl font-bold">Gamma</h3>
+                </div>
+                <p class="text-gray-600">Generador de presentaciones, documentos y páginas web con diseño profesional.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Con Gamma, solo necesitas escribir una idea y la IA se encarga de generar un documento o presentación con un diseño visualmente atractivo y bien estructurado.
+                    </p>
+                    <a href="https://gamma.app/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">📝</span>
+                    <h3 class="text-xl font-bold">Excalidraw</h3>
+                </div>
+                <p class="text-gray-600">Una pizarra digital que utiliza IA para generar diagramas a partir de texto.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Permite crear diagramas y esquemas con un estilo de "dibujo a mano". Su función de IA interpreta tus descripciones para generar diagramas complejos automáticamente.
+                    </p>
+                    <a href="https://excalidraw.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">📊</span>
+                    <h3 class="text-xl font-bold">Diagrams.net</h3>
+                </div>
+                <p class="text-gray-600">Una herramienta gratuita para diagramas con funciones de IA para optimizar el diseño.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un editor de diagramas muy popular que, si bien no tiene IA nativa, se integra con servicios externos para facilitar la creación de diagramas a partir de texto y la organización de elementos de forma inteligente.
+                    </p>
+                    <a href="https://app.diagrams.net/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">💡</span>
+                    <h3 class="text-xl font-bold">Google Labs</h3>
+                </div>
+                <p class="text-gray-600">Plataforma de experimentación con los proyectos de IA más recientes de Google.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> El lugar para probar las últimas y más experimentales herramientas de Google, como MusicFX (generador de música) o ImageFX (generador de imágenes), antes de su lanzamiento oficial.
+                    </p>
+                    <a href="https://labs.google/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🎨</span>
+                    <h3 class="text-xl font-bold">Google AI Studio</h3>
+                </div>
+                <p class="text-gray-600">Plataforma web para desarrollar y probar modelos de lenguaje como Gemini.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un entorno de desarrollo para prototipar y crear con modelos de Google como Gemini de manera sencilla, sin necesidad de escribir código complejo.
+                    </p>
+                    <a href="https://aistudio.google.com/prompts/new_chat" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Categoría: Herramientas de Automatización -->
+            <div class="col-span-full mt-6">
+                <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Automatización y Plataformas</h2>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">⚙️</span>
+                    <h3 class="text-xl font-bold">N8N</h3>
+                </div>
+                <p class="text-gray-600">Herramienta de automatización de flujos de trabajo de código abierto con funciones de IA.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Te permite construir automatizaciones visualmente, conectando más de 400 aplicaciones y usando la IA para procesar datos, generar contenido y tomar decisiones dentro de tus flujos de trabajo.
+                    </p>
+                    <a href="https://n8n.io/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🔥</span>
+                    <h3 class="text-xl font-bold">Firebase</h3>
+                </div>
+                <p class="text-gray-600">Plataforma de Google que incluye herramientas de IA para desarrollo de aplicaciones.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Aunque es una plataforma completa de backend, incluye ML Kit, que permite a los desarrolladores integrar inteligencia artificial en sus aplicaciones móviles, añadiendo funcionalidades como reconocimiento de texto e imágenes.
+                    </p>
+                    <a href="https://firebase.google.com/?hl=es" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🕵️‍♀️</span>
+                    <h3 class="text-xl font-bold">Pinpoint</h3>
+                </div>
+                <p class="text-gray-600">Una herramienta de Google para analizar rápidamente grandes colecciones de documentos.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Sube miles de documentos y Pinpoint te permite buscar, filtrar y conectar información clave, como nombres de personas, lugares y organizaciones, de forma automática.
+                    </p>
+                    <a href="https://journaliststudio.google.com/pinpoint" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🌳</span>
+                    <h3 class="text-xl font-bold">JungleAI</h3>
+                </div>
+                <p class="text-gray-600">Herramienta de IA para optimizar y predecir el rendimiento de activos industriales.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Se enfoca en la industria para analizar datos de sensores y maquinaria, ayudando a predecir fallos, optimizar el mantenimiento y mejorar la eficiencia operativa.
+                    </p>
+                    <a href="https://jungleai.com/es/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Categoría: Herramientas de Microsoft -->
+            <div class="col-span-full mt-6">
+                <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Herramientas de Microsoft</h2>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">💼</span>
+                    <h3 class="text-xl font-bold">Copilot para Microsoft 365</h3>
+                </div>
+                <p class="text-gray-600">Asistente de IA para aplicaciones de Microsoft como Word, Excel y Teams.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un asistente personal de IA que te ayuda a redactar documentos, analizar datos en hojas de cálculo, crear presentaciones, resumir reuniones y mucho más, directamente en las aplicaciones de Microsoft 365.
+                    </p>
+                    <a href="https://m365.cloud.microsoft/chat" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Categoría: Plataformas y Servicios Diversos -->
+            <div class="col-span-full mt-6">
+                <h2 class="category-title text-2xl md:text-3xl font-bold mb-6">Plataformas y Servicios Diversos</h2>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🔍</span>
+                    <h3 class="text-xl font-bold">Qodo.ai</h3>
+                </div>
+                <p class="text-gray-600">Asistente de IA para analizar y procesar bases de datos y hojas de cálculo.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Simplifica el trabajo con grandes conjuntos de datos al permitirte hacer preguntas en lenguaje natural. La IA procesa los datos y te da las respuestas, tablas o gráficos que necesitas.
+                    </p>
+                    <a href="https://www.qodo.ai/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">🌐</span>
+                    <h3 class="text-xl font-bold">Google Search</h3>
+                </div>
+                <p class="text-gray-600">El motor de búsqueda más usado, potenciado por IA para dar respuestas más precisas.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Aunque es un servicio familiar, su núcleo está potenciado por algoritmos de IA y `machine learning` que mejoran la relevancia de los resultados de búsqueda, completan consultas y detectan `spam`.
+                    </p>
+                    <a href="https://google.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+            <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                <div class="flex items-center mb-4">
+                    <!-- ESPACIO PARA EL ICONO DE LA IA -->
+                    <span class="text-3xl mr-4">💡</span>
+                    <h3 class="text-xl font-bold">Google Home</h3>
+                </div>
+                <p class="text-gray-600">Asistente de IA para el hogar que controla dispositivos y gestiona tareas.</p>
+                <div class="card-content">
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Descripción:</strong> Un asistente virtual que usa procesamiento de lenguaje natural para controlar dispositivos inteligentes del hogar, reproducir música, programar alarmas y responder preguntas basadas en una amplia base de conocimiento.
+                    </p>
+                    <a href="https://store.google.com/product/google_home" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a la web &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Recursos Educativos -->
+        <section class="mt-16 mb-16">
+            <h2 class="category-title text-3xl md:text-4xl font-bold mb-8 text-center">Recursos Educativos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Videos de YouTube -->
+                <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-4">🎥</span>
+                        <h3 class="text-xl font-bold">Kilo Code</h3>
+                    </div>
+                    <p class="text-gray-600">Video explicativo sobre programar con AI gratis con Kilo Code</p>
+                    <div class="card-content">
+                        <p class="mt-4 text-sm text-gray-500">
+                            <strong>Descripción:</strong> Aprende a instalar y usar Kilo Code, la extensión de código abierto para Visual Studio Code, junto con Grok Code Fast 1.
+                        </p>
+                        <a href="https://www.youtube.com/watch?v=0gOensngfWg&t=489s" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ver video &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-4">🤖</span>
+                        <h3 class="text-xl font-bold">Cómo trabajar en Ciencias de Datos</h3>
+                    </div>
+                    <p class="text-gray-600">Explicación detallada sobre cómo funcionan los modelos de lenguaje de IA en el campo de la Ciencia de Datos</p>
+                    <div class="card-content">
+                        <p class="mt-4 text-sm text-gray-500">
+                            <strong>Descripción:</strong> Video que profundiza en el funcionamiento interno de los modelos de lenguaje, explicando conceptos técnicos de manera comprensible.
+                        </p>
+                        <a href="https://youtu.be/lRGyNLymkAQ?si=PmJwX_YiAWFbziOO" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ver video &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-4">🚀</span>
+                        <h3 class="text-xl font-bold">Cómo funcionan los LLMs</h3>
+                    </div>
+                    <p class="text-gray-600">Se explica de manera sencilla y profunda cómo funcionan los grandes modelos de lenguaje que impulsan la IA</p>
+                    <div class="card-content">
+                        <p class="mt-4 text-sm text-gray-500">
+                            <strong>Descripción:</strong> Análisis del potencial transformador de la IA en diversos campos como medicina, educación, trabajo y sociedad, con perspectivas expertas sobre el futuro cercano.
+                        </p>
+                        <a href="https://youtu.be/awGfhmsN7Lc?si=RS5PIsvUxjoeovEd" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ver video &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Cursos de Platzi -->
+                <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-4">🎓</span>
+                        <h3 class="text-xl font-bold">Platzi - Plataforma Completa</h3>
+                    </div>
+                    <p class="text-gray-600">Plataforma de educación online con miles de cursos tecnológicos</p>
+                    <div class="card-content">
+                        <p class="mt-4 text-sm text-gray-500">
+                            <strong>Descripción:</strong> La plataforma líder en educación tecnológica en español, con cursos actualizados constantemente y una comunidad activa de estudiantes y profesionales.
+                        </p>
+                        <a href="https://platzi.com/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ir a Platzi &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-4">🧠</span>
+                        <h3 class="text-xl font-bold">Curso de LLMs</h3>
+                    </div>
+                    <p class="text-gray-600">Aprende sobre Modelos de Lenguaje Grande (Large Language Models)</p>
+                    <div class="card-content">
+                        <p class="mt-4 text-sm text-gray-500">
+                            <strong>Descripción:</strong> Curso completo sobre LLMs, cubriendo desde los fundamentos hasta aplicaciones prácticas, incluyendo GPT, BERT y arquitecturas de transformers.
+                        </p>
+                        <a href="https://platzi.com/cursos/llms/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Tomar curso &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-4">⚙️</span>
+                        <h3 class="text-xl font-bold">Ingeniería de Software</h3>
+                    </div>
+                    <p class="text-gray-600">Cursos especializados en ingeniería y desarrollo de sistemas de IA</p>
+                    <div class="card-content">
+                        <p class="mt-4 text-sm text-gray-500">
+                            <strong>Descripción:</strong> Ruta de aprendizaje completa para convertirte en ingeniero de IA, cubriendo machine learning, deep learning, MLOps y desarrollo de aplicaciones de IA.
+                        </p>
+                        <a href="https://platzi.com/cursos/ingenieria/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Ver cursos &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-4">💬</span>
+                        <h3 class="text-xl font-bold">Prompt Engineering</h3>
+                    </div>
+                    <p class="text-gray-600">Domina el arte de crear prompts efectivos para modelos de IA</p>
+                    <div class="card-content">
+                        <p class="mt-4 text-sm text-gray-500">
+                            <strong>Descripción:</strong> Aprende las técnicas avanzadas para comunicarte efectivamente con modelos de IA, optimizando resultados y maximizando el potencial de herramientas como ChatGPT y Claude.
+                        </p>
+                        <a href="https://platzi.com/cursos/prompt-engineering/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Tomar curso &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="ai-card rounded-xl p-6 shadow-md transform hover:scale-105" onclick="toggleCard(this)">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-4">💻</span>
+                        <h3 class="text-xl font-bold">Programación Básica</h3>
+                    </div>
+                    <p class="text-gray-600">Fundamentos esenciales de programación para principiantes</p>
+                    <div class="card-content">
+                        <p class="mt-4 text-sm text-gray-500">
+                            <strong>Descripción:</strong> Curso introductorio perfecto para quienes quieren aprender a programar desde cero. Cubre lógica de programación, algoritmos y primeros pasos en lenguajes como Python.
+                        </p>
+                        <a href="https://platzi.com/cursos/programacion-basica/" target="_blank" class="mt-4 inline-block text-blue-500 font-semibold ai-link">Tomar curso &rarr;</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Marca de agua -->
+    <div class="watermark fixed bottom-4 right-4 text-[#01161e] opacity-25 text-xs font-light pointer-events-none z-10" style="font-size: 10px;">
+        by @dagdmfc
+    </div>
+
+    <script>
+        function toggleCard(card) {
+            const content = card.querySelector('.card-content');
+            content.classList.toggle('open');
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Función de búsqueda
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const cards = document.querySelectorAll('.ai-card');
+            const categories = document.querySelectorAll('.category-title');
+            const searchHint = document.querySelector('.search-hint');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                let visibleCategories = new Set();
+                let visibleCards = [];
+                let firstVisibleCard = null;
+
+                cards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const detailedDesc = card.querySelector('.card-content p') ?
+                        card.querySelector('.card-content p').textContent.toLowerCase() : '';
+
+                    const matches = title.includes(searchTerm) ||
+                                  description.includes(searchTerm) ||
+                                  detailedDesc.includes(searchTerm);
+
+                    if (matches || searchTerm === '') {
+                        card.style.display = 'block';
+                        visibleCards.push(card);
+                        if (!firstVisibleCard) firstVisibleCard = card;
+
+                        // Encontrar la categoría padre
+                        let parent = card.parentElement;
+                        while (parent && !parent.classList.contains('col-span-full')) {
+                            parent = parent.previousElementSibling;
+                        }
+                        if (parent && parent.querySelector('.category-title')) {
+                            visibleCategories.add(parent);
+                        }
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Mostrar/ocultar categorías basadas en tarjetas visibles
+                categories.forEach(category => {
+                    const categorySection = category.closest('.col-span-full');
+                    const nextCards = [];
+                    let sibling = categorySection.nextElementSibling;
+                    while (sibling && !sibling.classList.contains('col-span-full')) {
+                        if (sibling.querySelector('.ai-card')) {
+                            nextCards.push(sibling);
+                        }
+                        sibling = sibling.nextElementSibling;
+                    }
+
+                    const hasVisibleCards = nextCards.some(cardContainer =>
+                        cardContainer.querySelector('.ai-card[style*="block"]') ||
+                        cardContainer.querySelector('.ai-card:not([style*="none"])')
+                    );
+
+                    categorySection.style.display = hasVisibleCards || searchTerm === '' ? 'block' : 'none';
+                });
+
+                // Scroll automático a la primera tarjeta visible si hay búsqueda
+                if (searchTerm !== '' && firstVisibleCard) {
+                    setTimeout(() => {
+                        firstVisibleCard.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }, 300);
+                }
+
+                // Mostrar mensaje si no hay resultados
+                if (searchTerm !== '' && visibleCards.length === 0) {
+                    if (!document.querySelector('.no-results')) {
+                        const noResultsMsg = document.createElement('div');
+                        noResultsMsg.className = 'no-results text-center py-8 px-4 bg-[#f0f0f0] rounded-lg border border-[#124559] mt-8';
+                        noResultsMsg.innerHTML = `
+                            <div class="text-[#01161e] text-lg font-semibold mb-2">🔍 No se encontraron resultados</div>
+                            <div class="text-[#124559]">No hay herramientas de IA que coincidan con "${searchTerm}".<br>Intenta con otros términos como "chatbot", "imagen" o "código".</div>
+                        `;
+                        document.querySelector('#infographic').appendChild(noResultsMsg);
+                    }
+                } else {
+                    const noResultsMsg = document.querySelector('.no-results');
+                    if (noResultsMsg) {
+                        noResultsMsg.remove();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
